@@ -27,9 +27,14 @@ jobs:
           CODE_SIGNING_ALLOWED=NO
           build
 
+      - name: Stage app bundle
+        run: |
+          mkdir -p "$RUNNER_TEMP/artifact"
+          cp -R "$RUNNER_TEMP/DerivedData/Build/Products/Debug/Caffeine.app" "$RUNNER_TEMP/artifact/"
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: caffeine-macos
-          path: ${{ runner.temp }}/DerivedData/Build/Products/Debug/Caffeine.app
+          path: ${{ runner.temp }}/artifact/*
           if-no-files-found: error
